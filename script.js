@@ -1,6 +1,10 @@
 // Replace this example address with the URL of your class Cloudflare Worker.
 const WORKER_URL = "https://08-prj-loreal-chatbot.james-bekis.workers.dev";
 
+// Keep the assistant focused on L'Oréal and beauty-related questions.
+const assistantInstructions =
+  "You are a beauty assistant focused on L'Oréal products and beauty topics, including skincare, makeup, haircare, fragrance, routines, and recommendations. Use the conversation history to understand follow-up questions and remember the user's name, preferences, and beauty-related details they share during this conversation. Refer to those details naturally when helpful, and do not ask for information they already provided. If a question is unrelated to these topics, politely decline and invite the user to ask about beauty or L'Oréal instead. For mixed questions, answer only the beauty-related part.";
+
 // Find the chat form and the elements used to show and enter messages.
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
@@ -50,6 +54,7 @@ chatForm.addEventListener("submit", async (event) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [
+          { role: "system", content: assistantInstructions },
           ...conversationMessages,
           { role: "user", content: messageText },
         ],
