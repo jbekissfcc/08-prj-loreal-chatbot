@@ -1,5 +1,5 @@
 // Replace this example address with the URL of your class Cloudflare Worker.
-const WORKER_URL = "https://loreal-chatbot.your-subdomain.workers.dev/";
+const WORKER_URL = "https://08-prj-loreal-chatbot.james-bekis.workers.dev";
 
 // Find the chat form and the elements used to show and enter messages.
 const chatForm = document.getElementById("chatForm");
@@ -49,7 +49,10 @@ chatForm.addEventListener("submit", async (event) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages: [...conversationMessages, { role: "user", content: messageText }],
+        messages: [
+          ...conversationMessages,
+          { role: "user", content: messageText },
+        ],
       }),
     });
 
@@ -60,7 +63,9 @@ chatForm.addEventListener("submit", async (event) => {
     const data = await response.json();
     const reply = data.choices?.[0]?.message?.content;
     if (typeof reply !== "string" || !reply.trim()) {
-      throw new Error(data.error?.message || "The Worker returned no assistant reply.");
+      throw new Error(
+        data.error?.message || "The Worker returned no assistant reply.",
+      );
     }
 
     conversationMessages.push(
